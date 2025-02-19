@@ -3,7 +3,7 @@ import app from "./app";
 import Config from "./app/Config";
 async function main() {
   try {
-    mongoose.set("debug", true); // ✅ Enables query logging
+    // mongoose.set("debug", true);
     await mongoose.connect(Config.dburi as string);
     console.log("✅ MongoDB Connected Successfully");
 
