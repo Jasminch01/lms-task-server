@@ -15,7 +15,7 @@ const getCoursesDB = async () => {
 };
 
 const deleteCourseDB = async (courseId: string) => {
-    const existingCourse = await Course.findById(courseId);
+  const existingCourse = await Course.findById(courseId);
   if (!existingCourse) {
     throw new AppError(httpStatus.NOT_FOUND, "Course not found");
   }
@@ -24,9 +24,6 @@ const deleteCourseDB = async (courseId: string) => {
 };
 
 const renameCourseDB = async (courseId: string, updateCourse: Tcourse) => {
-  console.log("Updating course:", courseId, updateCourse);
-
-  // Check if course exists
   const existingCourse = await Course.findById(courseId);
   if (!existingCourse) {
     throw new AppError(httpStatus.NOT_FOUND, "Course not found");

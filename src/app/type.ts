@@ -1,4 +1,3 @@
-import mongoose, { Document } from "mongoose";
 
 export type Tcourse = {
   title: String;
@@ -7,11 +6,11 @@ export type Tcourse = {
   description: String;
 };
 
-export interface Tmodule extends Document {
-  coruseId: mongoose.Types.ObjectId;
+export type Tmodule = {
+  courseId: string;
   title: string;
-  moduleNumber: Number;
-}
+  moduleNumber: number;
+};
 
 export type Tadmin = {
   name: string;
@@ -19,9 +18,9 @@ export type Tadmin = {
   password: string;
 };
 
-export interface Tlecture extends Document {
-  moduleId: mongoose.Types.ObjectId;
+export type Tlecture = {
+  moduleId: string;
   title: string;
   videoUrl: string;
   pdfNotes: [string];
-}
+};
