@@ -26,6 +26,42 @@ const createCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         message: "a new course created Successfuly",
     });
 }));
+const getCourses = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_services_1.CourseServices.getCoursesDB();
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        data: result,
+        message: "retrive all courses successfuly",
+    });
+}));
+const deleteCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { courseId } = req.query;
+    const id = courseId;
+    const result = yield course_services_1.CourseServices.deleteCourseDB(id);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        data: result,
+        message: "course deleted Successfully",
+    });
+}));
+const renameCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const { courseId } = req.query;
+    const id = courseId;
+    const updateCourse = req.body;
+    const result = yield course_services_1.CourseServices.renameCourseDB(id, updateCourse);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        data: result,
+        message: ((_a = result.errors) === null || _a === void 0 ? void 0 : _a.message) || "course updated Successfully",
+    });
+}));
 exports.courseController = {
     createCourse,
+    getCourses,
+    deleteCourse,
+    renameCourse,
 };

@@ -13,12 +13,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseServices = void 0;
+const AppError_1 = __importDefault(require("../Error/AppError"));
 const course_model_1 = __importDefault(require("../Models/course.model"));
+const http_status_1 = __importDefault(require("http-status"));
 const createCourseDB = (course) => __awaiter(void 0, void 0, void 0, function* () {
     const newCourse = course;
     const result = yield course_model_1.default.create(newCourse);
     return result;
 });
+const getCoursesDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_model_1.default.find();
+    return result;
+});
+const deleteCourseDB = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
+    const existingCourse = yield course_model_1.default.findById(courseId);
+    if (!existingCourse) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Course not found");
+    }
+    const result = yield course_model_1.default.findByIdAndDelete(courseId);
+    return result;
+});
+const renameCourseDB = (courseId, updateCourse) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("Updating course:", courseId, updateCourse);
+    // Check if course exists
+    const existingCourse = yield course_model_1.default.findById(courseId);
+    if (!existingCourse) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Course not found");
+    }
+    // Update course
+    const result = yield course_model_1.default.findByIdAndUpdate(courseId, updateCourse, {
+        new: true,
+        runValidators: true,
+    });
+    if (!result) {
+        throw new AppError_1.default(400, "Update operation failed");
+    }
+    return result;
+});
 exports.CourseServices = {
     createCourseDB,
+    getCoursesDB,
+    deleteCourseDB,
+    renameCourseDB,
 };
