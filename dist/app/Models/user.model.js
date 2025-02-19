@@ -12,20 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = __importDefault(require("./app"));
-const Config_1 = __importDefault(require("./app/Config"));
-function main() {
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const mongoose_1 = require("mongoose");
+const AdminSchema = new mongoose_1.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+});
+// Hash password before saving
+AdminSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            mongoose_1.default.connect(Config_1.default.dburi);
-            app_1.default.listen(Config_1.default.port, () => {
-                console.log(`server is online on port ${Config_1.default.port}`);
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
+        if (!this.isModified("password"))
+            return next();
+        this.password = yield bcryptjs_1.default.hash(this.password, 10);
+        next();
     });
-}
-main();
+});
+const Admin = (0, mongoose_1.model)("admin", AdminSchema);
+exports.default = Admin;
