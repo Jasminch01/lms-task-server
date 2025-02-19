@@ -1,10 +1,10 @@
-import mongoose, { model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { Tlecture } from "../type";
 
 const LectureSchema = new Schema<Tlecture>(
   {
     moduleId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "Module",
       required: true,
     },

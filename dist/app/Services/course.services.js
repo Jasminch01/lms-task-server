@@ -34,8 +34,6 @@ const deleteCourseDB = (courseId) => __awaiter(void 0, void 0, void 0, function*
     return result;
 });
 const renameCourseDB = (courseId, updateCourse) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Updating course:", courseId, updateCourse);
-    // Check if course exists
     const existingCourse = yield course_model_1.default.findById(courseId);
     if (!existingCourse) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Course not found");
