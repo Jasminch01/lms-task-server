@@ -1,14 +1,15 @@
+import mongoose from "mongoose";
 import app from "./app";
-const port = 5000;
-
+import Config from "./app/Config";
 async function main() {
   try {
-    app.listen(port, () => {
-      console.log(`server is online on port ${port}`);
+    mongoose.connect(Config.dburi as string);
+    app.listen(Config.port, () => {
+      console.log(`server is online on port ${Config.port}`);
     });
   } catch (error) {
     console.log(error);
   }
 }
 
-main()
+main();
