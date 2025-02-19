@@ -7,5 +7,5 @@ const courseSchema = new mongoose_1.Schema({
     thumbnail: { type: String, required: true },
     description: { type: String, required: true },
 }, { timestamps: true });
-const Course = (0, mongoose_1.model)("course", courseSchema);
+const Course = (0, mongoose_1.model)("Course", courseSchema);
 exports.default = Course;

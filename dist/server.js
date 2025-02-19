@@ -18,13 +18,16 @@ const Config_1 = __importDefault(require("./app/Config"));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            mongoose_1.default.connect(Config_1.default.dburi);
+            mongoose_1.default.set("debug", true); // ✅ Enables query logging
+            yield mongoose_1.default.connect(Config_1.default.dburi);
+            console.log("✅ MongoDB Connected Successfully");
             app_1.default.listen(Config_1.default.port, () => {
-                console.log(`server is online on port ${Config_1.default.port}`);
+                console.log(`🚀 Server is online on port ${Config_1.default.port}`);
             });
         }
         catch (error) {
-            console.log(error);
+            console.error("❌ MongoDB Connection Failed:", error);
+            process.exit(1);
         }
     });
 }

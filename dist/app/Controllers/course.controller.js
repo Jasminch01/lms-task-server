@@ -12,21 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const mongoose_1 = require("mongoose");
-const AdminSchema = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-});
-// Hash password before saving
-AdminSchema.pre("save", function (next) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (!this.isModified("password"))
-            return next();
-        this.password = yield bcryptjs_1.default.hash(this.password, 10);
-        next();
+exports.courseController = void 0;
+const course_services_1 = require("../Services/course.services");
+const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
+const sendResponse_1 = __importDefault(require("../utils/sendResponse"));
+const createCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const course = req.body;
+    const result = yield course_services_1.CourseServices.createCourseDB(course);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        data: result,
+        message: "a new course created Successfuly",
     });
-});
-const Admin = (0, mongoose_1.model)("Admin", AdminSchema);
-exports.default = Admin;
+}));
+exports.courseController = {
+    createCourse,
+};

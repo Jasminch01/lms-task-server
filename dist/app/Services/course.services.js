@@ -12,21 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const mongoose_1 = require("mongoose");
-const AdminSchema = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+exports.CourseServices = void 0;
+const course_model_1 = __importDefault(require("../Models/course.model"));
+const createCourseDB = (course) => __awaiter(void 0, void 0, void 0, function* () {
+    const newCourse = course;
+    const result = yield course_model_1.default.create(newCourse);
+    return result;
 });
-// Hash password before saving
-AdminSchema.pre("save", function (next) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (!this.isModified("password"))
-            return next();
-        this.password = yield bcryptjs_1.default.hash(this.password, 10);
-        next();
-    });
-});
-const Admin = (0, mongoose_1.model)("Admin", AdminSchema);
-exports.default = Admin;
+exports.CourseServices = {
+    createCourseDB,
+};

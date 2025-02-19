@@ -24,12 +24,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const moduleSchema = new mongoose_1.Schema({
-    coruseId: { type: mongoose_1.default.Schema.ObjectId, ref: "Course", required: true },
+const LectureSchema = new mongoose_1.Schema({
+    moduleId: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Module",
+        required: true,
+    },
     title: { type: String, required: true },
-    moduleNumber: { type: Number, required: true },
-}, {
-    timestamps: true,
-});
-const Module = (0, mongoose_1.model)("Module", moduleSchema);
-exports.default = Module;
+    videoUrl: { type: String, required: true }, // Embedded YouTube URL
+    pdfNotes: [{ type: String }], // PDF URLs
+}, { timestamps: true });
+const Lecture = (0, mongoose_1.model)("Lecture", LectureSchema);
+exports.default = Lecture;
