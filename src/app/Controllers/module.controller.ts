@@ -13,7 +13,17 @@ const createModule = catchAsync(async (req, res) => {
   });
 });
 
+const getModules = catchAsync(async (req, res) => {
+  const result = await moduleServices.getModulesDB();
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    data: result,
+    message: "modules retrives successfully",
+  });
+});
 
 export const moduleControllers = {
-    createModule,
-}
+  createModule,
+  getModules,
+};
