@@ -1,9 +1,9 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import { Tmodule } from "../type";
 
 const moduleSchema = new Schema<Tmodule>(
   {
-    coruseId: { type: String, required: true },
+    coruseId: { type: mongoose.Schema.ObjectId, ref: "Course", required: true },
     title: { type: String, required: true },
     moduleNumber: { type: Number, required: true },
   },
@@ -12,6 +12,6 @@ const moduleSchema = new Schema<Tmodule>(
   }
 );
 
-const Module = model<Tmodule>("module", moduleSchema);
+const Module = model<Tmodule>("Module", moduleSchema);
 
 export default Module;

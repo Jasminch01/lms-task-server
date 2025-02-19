@@ -15,6 +15,6 @@ AdminSchema.pre("save", async function (next) {
   next();
 });
 
-const Admin = model<Tadmin>("admin", AdminSchema);
+const Admin = model<Tadmin>("Admin", AdminSchema);
 
 export default Admin;

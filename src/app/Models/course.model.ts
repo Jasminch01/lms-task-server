@@ -11,6 +11,6 @@ const courseSchema = new Schema<Tcourse>(
   { timestamps: true }
 );
 
-const Course = model<Tcourse>("course", courseSchema);
+const Course = model<Tcourse>("Course", courseSchema);
 
 export default Course;
