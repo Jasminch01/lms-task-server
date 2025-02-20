@@ -6,10 +6,10 @@ const router = Router();
 
 router.post(
   "/lectures/create",
-  currentUser(),
+  auth("admin"),
   lectureControllers.createLecture
 );
 router.get("/lectures", currentUser(), lectureControllers.getLectures);
-router.put("/lectures", auth('admin'), lectureControllers.editLecture);
-router.delete("/lectures", auth('admin'), lectureControllers.delectLecture);
+router.put("/lectures", auth("admin"), lectureControllers.editLecture);
+router.delete("/lectures", auth("admin"), lectureControllers.delectLecture);
 export const lectureRouter = router;

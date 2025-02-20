@@ -37,8 +37,7 @@ export const auth = (...requiredRoles: TuserRole[]) => {
         "You have no access to this route !"
       );
     }
-
-    req.body = decoded as JwtPayload;
+    
     next();
   });
 };

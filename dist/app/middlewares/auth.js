@@ -39,7 +39,6 @@ const auth = (...requiredRoles) => {
         if (requiredRoles && !requiredRoles.includes(role)) {
             throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "You have no access to this route !");
         }
-        req.body = decoded;
         next();
     }));
 };
