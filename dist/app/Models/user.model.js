@@ -29,5 +29,5 @@ AdminSchema.pre("save", function (next) {
         next();
     });
 });
-const User = (0, mongoose_1.model)("Admin", AdminSchema);
+const User = (0, mongoose_1.model)("User", AdminSchema);
 exports.default = User;
