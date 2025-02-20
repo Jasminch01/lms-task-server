@@ -1,4 +1,3 @@
-
 export type Tcourse = {
   title: String;
   price: String;
@@ -16,6 +15,7 @@ export type Tadmin = {
   name: string;
   email: string;
   password: string;
+  role: string;
 };
 
 export type Tlecture = {
@@ -23,4 +23,9 @@ export type Tlecture = {
   title: string;
   videoUrl: string;
   pdfNotes: [string];
+};
+
+export type TsignInAdmin = {
+  email: string;
+  password: string;
 };

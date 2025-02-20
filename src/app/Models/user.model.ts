@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { model, Schema } from "mongoose";
 import { Tadmin } from "../type";
 
@@ -6,6 +6,7 @@ const AdminSchema = new Schema<Tadmin>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  role: { type: String, default: "admin" },
 });
 
 // Hash password before saving
