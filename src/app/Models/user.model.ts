@@ -1,12 +1,12 @@
 import bcrypt from "bcrypt";
 import { model, Schema } from "mongoose";
-import { Tadmin } from "../type";
+import { Tuser } from "../type";
 
-const AdminSchema = new Schema<Tadmin>({
+const AdminSchema = new Schema<Tuser>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, default: "admin" },
+  role: { type: String, enum: ["admin", "user"], default: "user" },
 });
 
 // Hash password before saving
@@ -16,6 +16,6 @@ AdminSchema.pre("save", async function (next) {
   next();
 });
 
-const Admin = model<Tadmin>("Admin", AdminSchema);
+const User = model<Tuser>("Admin", AdminSchema);
 
-export default Admin;
+export default User;

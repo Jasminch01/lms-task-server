@@ -11,7 +11,7 @@ export type Tmodule = {
   moduleNumber: number;
 };
 
-export type Tadmin = {
+export type Tuser = {
   name: string;
   email: string;
   password: string;
@@ -25,7 +25,14 @@ export type Tlecture = {
   pdfNotes: [string];
 };
 
-export type TsignInAdmin = {
+export type TsignInUser = {
   email: string;
   password: string;
 };
+
+export const USER_ROLE = {
+  user: "user",
+  admin: "admin",
+} as const;
+
+export type TuserRole = keyof typeof USER_ROLE;

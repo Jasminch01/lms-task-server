@@ -13,19 +13,31 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
-const adminSignIn = catchAsync(async (req, res) => {
+const userSignIn = catchAsync(async (req, res) => {
   const userCrediential = req.body;
-  const { user, token } = await userServices.adminSignIn(userCrediential);
+  const { user, token } = await userServices.userSignIn(userCrediential);
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: "admin sign in successfully",
+    message: "user sign in successfully",
     data: user,
     token: token,
   });
 });
 
+const getUserProfile = catchAsync(async (req, res) => {
+  const userEmail = req.body;
+  const result = await userServices.getUserProfileDB(userEmail);
+  sendResponse(res, {
+    success : true,
+    statusCode : 200,
+    message : "access user profile succssfully",
+    data : result,
+  })
+})
+
 export const userController = {
   createUser,
-  adminSignIn,
+  userSignIn,
+  getUserProfile,
 };

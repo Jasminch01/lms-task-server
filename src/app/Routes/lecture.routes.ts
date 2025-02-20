@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { lectureControllers } from "../Controllers/lecture.controller";
-import { currentUser } from "../middlewares/auth";
+import { auth, currentUser } from "../middlewares/auth";
 
 const router = Router();
 
@@ -9,7 +9,7 @@ router.post(
   currentUser(),
   lectureControllers.createLecture
 );
-router.get("/lectures", lectureControllers.getLectures);
-router.put("/lectures", currentUser(), lectureControllers.editLecture);
-router.delete("/lectures", currentUser(), lectureControllers.delectLecture);
+router.get("/lectures", currentUser(), lectureControllers.getLectures);
+router.put("/lectures", auth('admin'), lectureControllers.editLecture);
+router.delete("/lectures", auth('admin'), lectureControllers.delectLecture);
 export const lectureRouter = router;
