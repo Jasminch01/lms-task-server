@@ -35,6 +35,14 @@ const getCoursesDB = () => __awaiter(void 0, void 0, void 0, function* () {
     })));
     return coursesWithAuthors;
 });
+const getCourseDB = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
+    const course = yield course_model_1.default.findById(courseId);
+    if (!course) {
+        throw new Error("Course not found");
+    }
+    const author = yield user_model_1.default.findById(course.authorId).select("name email");
+    return Object.assign(Object.assign({}, course.toObject()), { author });
+});
 const deleteCourseDB = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
     const existingCourse = yield course_model_1.default.findById(courseId);
     if (!existingCourse) {
@@ -61,6 +69,7 @@ const renameCourseDB = (courseId, updateCourse) => __awaiter(void 0, void 0, voi
 exports.CourseServices = {
     createCourseDB,
     getCoursesDB,
+    getCourseDB,
     deleteCourseDB,
     renameCourseDB,
 };

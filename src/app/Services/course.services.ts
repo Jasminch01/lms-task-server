@@ -21,9 +21,7 @@ const getCoursesDB = async () => {
   // Fetch author details for each course
   const coursesWithAuthors = await Promise.all(
     courses.map(async (course) => {
-      const author = await User.findById(course.authorId).select(
-        "name email"
-      ); // Fetch author info
+      const author = await User.findById(course.authorId).select("name email"); // Fetch author info
       return {
         ...course.toObject(),
         author,
@@ -32,6 +30,20 @@ const getCoursesDB = async () => {
   );
 
   return coursesWithAuthors;
+};
+
+const getCourseDB = async (courseId: string) => {
+  const course = await Course.findById(courseId);
+  if (!course) {
+    throw new Error("Course not found");
+  }
+
+  const author = await User.findById(course.authorId).select("name email");
+
+  return {
+    ...course.toObject(),
+    author,
+  };
 };
 
 const deleteCourseDB = async (courseId: string) => {
@@ -65,6 +77,7 @@ const renameCourseDB = async (courseId: string, updateCourse: Tcourse) => {
 export const CourseServices = {
   createCourseDB,
   getCoursesDB,
+  getCourseDB,
   deleteCourseDB,
   renameCourseDB,
 };

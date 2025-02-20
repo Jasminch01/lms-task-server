@@ -35,6 +35,17 @@ const getCourses = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         message: "retrive all courses successfuly",
     });
 }));
+const getCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { courseId } = req.query;
+    const id = courseId;
+    const result = yield course_services_1.CourseServices.getCourseDB(id);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        data: result,
+        message: "course retrive Successfully",
+    });
+}));
 const deleteCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { courseId } = req.query;
     const id = courseId;
@@ -62,6 +73,7 @@ const renameCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
 exports.courseController = {
     createCourse,
     getCourses,
+    getCourse,
     deleteCourse,
     renameCourse,
 };
