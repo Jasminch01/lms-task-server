@@ -16,6 +16,6 @@ AdminSchema.pre("save", async function (next) {
   next();
 });
 
-const User = model<Tuser>("Admin", AdminSchema);
+const User = model<Tuser>("User", AdminSchema);
 
 export default User;
