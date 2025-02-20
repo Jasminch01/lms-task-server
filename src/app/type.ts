@@ -3,6 +3,7 @@ export type Tcourse = {
   price: String;
   thumbnail: String;
   description: String;
+  authorId: String;
 };
 
 export type Tmodule = {

@@ -6,6 +6,7 @@ const courseSchema = new mongoose_1.Schema({
     price: { type: String, required: true },
     thumbnail: { type: String, required: true },
     description: { type: String, required: true },
+    authorId: { type: String, required: true }
 }, { timestamps: true });
 const Course = (0, mongoose_1.model)("Course", courseSchema);
 exports.default = Course;

@@ -16,14 +16,24 @@ exports.CourseServices = void 0;
 const AppError_1 = __importDefault(require("../Error/AppError"));
 const course_model_1 = __importDefault(require("../Models/course.model"));
 const http_status_1 = __importDefault(require("http-status"));
+const user_model_1 = __importDefault(require("../Models/user.model"));
 const createCourseDB = (course) => __awaiter(void 0, void 0, void 0, function* () {
     const newCourse = course;
     const result = yield course_model_1.default.create(newCourse);
     return result;
 });
+// const getCoursesDB = async () => {
+//   const result = await Course.find();
+//   return result;
+// };
 const getCoursesDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield course_model_1.default.find();
-    return result;
+    const courses = yield course_model_1.default.find(); // Fetch all courses
+    // Fetch author details for each course
+    const coursesWithAuthors = yield Promise.all(courses.map((course) => __awaiter(void 0, void 0, void 0, function* () {
+        const author = yield user_model_1.default.findById(course.authorId).select("name email"); // Fetch author info
+        return Object.assign(Object.assign({}, course.toObject()), { author });
+    })));
+    return coursesWithAuthors;
 });
 const deleteCourseDB = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
     const existingCourse = yield course_model_1.default.findById(courseId);

@@ -2,6 +2,7 @@ import AppError from "../Error/AppError";
 import Course from "../Models/course.model";
 import httpStatus from "http-status";
 import { Tcourse } from "../type";
+import User from "../Models/user.model";
 
 const createCourseDB = async (course: Tcourse) => {
   const newCourse = course;
@@ -9,9 +10,28 @@ const createCourseDB = async (course: Tcourse) => {
   return result;
 };
 
+// const getCoursesDB = async () => {
+//   const result = await Course.find();
+//   return result;
+// };
+
 const getCoursesDB = async () => {
-  const result = await Course.find();
-  return result;
+  const courses = await Course.find(); // Fetch all courses
+
+  // Fetch author details for each course
+  const coursesWithAuthors = await Promise.all(
+    courses.map(async (course) => {
+      const author = await User.findById(course.authorId).select(
+        "name email"
+      ); // Fetch author info
+      return {
+        ...course.toObject(),
+        author,
+      };
+    })
+  );
+
+  return coursesWithAuthors;
 };
 
 const deleteCourseDB = async (courseId: string) => {
