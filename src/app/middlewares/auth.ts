@@ -44,7 +44,8 @@ export const auth = (...requiredRoles: TuserRole[]) => {
 
 export const currentUser = () => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.cookies.accessToken;
+    console.log(token)
 
     // Check if the token is missing
     if (!token) {

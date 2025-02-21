@@ -29,6 +29,11 @@ const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 const userSignIn = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userCrediential = req.body;
     const { user, token } = yield user_services_1.userServices.userSignIn(userCrediential);
+    res.cookie("accessToken", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    });
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
         success: true,

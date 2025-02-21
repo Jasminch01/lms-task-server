@@ -5,11 +5,13 @@ import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import { moduleRouter } from "./app/Routes/module.routes";
 import { lectureRouter } from "./app/Routes/lecture.routes";
 import { userRouter } from "./app/Routes/user.routes";
+import cookieparser from "cookie-parser"
 const app: Application = express();
 
 app.use(express.json());
+app.use(cookieparser())
 
-app.use(cors());
+app.use(cors({ origin: ["http://localhost:3000"], credentials: true }));
 app.use("/api", courseRouter);
 app.use("/api", moduleRouter);
 app.use("/api", lectureRouter);

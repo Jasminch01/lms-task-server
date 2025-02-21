@@ -10,9 +10,11 @@ const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalEr
 const module_routes_1 = require("./app/Routes/module.routes");
 const lecture_routes_1 = require("./app/Routes/lecture.routes");
 const user_routes_1 = require("./app/Routes/user.routes");
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cookie_parser_1.default)());
+app.use((0, cors_1.default)({ origin: ["http://localhost:3000"], credentials: true }));
 app.use("/api", course_routes_1.courseRouter);
 app.use("/api", module_routes_1.moduleRouter);
 app.use("/api", lecture_routes_1.lectureRouter);
