@@ -23,9 +23,32 @@ const getModules = catchAsync(async (req, res) => {
   });
 });
 
+const moduleUpdate = catchAsync(async (req, res) => {
+  const { editedTitle } = req.body;
+  const { id } = req.params;
+  const result = await moduleServices.moduleUpdateDB(id, editedTitle);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    data: result,
+    message: "module updated successfully",
+  });
+});
+
+const moduledelete = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await moduleServices.deleteModule(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    data: result,
+    message: "module deleted successfully",
+  });
+});
+
 const getModulesCourseId = catchAsync(async (req, res) => {
   const { id } = req.params;
-  console.log(id)
+  console.log(id);
   const courseId = id as string;
   const result = await moduleServices.getModulesWithCourseIdDB(courseId);
   sendResponse(res, {
@@ -40,4 +63,6 @@ export const moduleControllers = {
   createModule,
   getModules,
   getModulesCourseId,
+  moduleUpdate,
+  moduledelete,
 };

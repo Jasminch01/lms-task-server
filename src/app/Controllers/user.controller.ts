@@ -18,9 +18,9 @@ const userSignIn = catchAsync(async (req, res) => {
   const { user, token } = await userServices.userSignIn(userCrediential);
 
   res.cookie("accessToken", token, {
-    httpOnly : true,
-    secure : true,
-    sameSite : "none"
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
   });
   sendResponse(res, {
     statusCode: 200,
@@ -31,6 +31,15 @@ const userSignIn = catchAsync(async (req, res) => {
   });
 });
 
+const userLogout = catchAsync(async (req, res) => {
+  res.clearCookie("accessToken", { path: "/", httpOnly: true, secure: true });
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "logged out successfully",
+    data: "logged out successfully",
+  });
+});
 const getUserProfile = catchAsync(async (req, res) => {
   const userEmail = req.body;
   const result = await userServices.getUserProfileDB(userEmail);
@@ -46,4 +55,5 @@ export const userController = {
   createUser,
   userSignIn,
   getUserProfile,
+  userLogout,
 };

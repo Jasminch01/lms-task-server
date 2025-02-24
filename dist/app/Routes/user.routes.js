@@ -7,5 +7,6 @@ const auth_1 = require("../middlewares/auth");
 const router = (0, express_1.Router)();
 router.post("/user/signup", user_controller_1.userController.createUser);
 router.post("/user/signin", user_controller_1.userController.userSignIn);
+router.post("/user/logout", user_controller_1.userController.userLogout);
 router.get("/user/me", (0, auth_1.currentUser)(), user_controller_1.userController.getUserProfile);
 exports.userRouter = router;

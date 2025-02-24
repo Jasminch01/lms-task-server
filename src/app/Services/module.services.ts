@@ -3,6 +3,7 @@ import AppError from "../Error/AppError";
 import Module from "../Models/module.model";
 import { Tmodule } from "../type";
 import Lecture from "../Models/lecture.modal";
+import { error } from "console";
 
 const createModuleDB = async (module: Tmodule) => {
   const newModule = module;
@@ -37,8 +38,45 @@ const getModulesWithCourseIdDB = async (courseId: string) => {
   return modulesWithLectures;
 };
 
+const moduleUpdateDB = async (moduleId: string, updateName: string) => {
+  const existModule = Module.findById(moduleId);
+  if (!existModule) {
+    throw new AppError(httpStatus.NOT_FOUND, "module not found");
+  }
+  const updatedModule = await Module.findByIdAndUpdate(
+    moduleId,
+    { title: updateName },
+    { new: true }
+  );
+
+  if (!updatedModule) {
+    throw new AppError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      "Failed to update module"
+    );
+  }
+
+  return updatedModule;
+};
+
+const deleteModule = async (moduleId: string) => {
+  const existModule = Module.findById(moduleId);
+  if (!existModule) {
+    throw new AppError(httpStatus.NOT_FOUND, "module not found");
+  }
+
+  const deleteModule = Module.findByIdAndDelete(moduleId);
+  if (!deleteModule) {
+    throw new AppError(httpStatus.NOT_FOUND, "module delete failed");
+  }
+
+  return deleteModule;
+};
+
 export const moduleServices = {
   createModuleDB,
   getModulesDB,
   getModulesWithCourseIdDB,
+  moduleUpdateDB,
+  deleteModule,
 };

@@ -23,7 +23,6 @@ const user_model_2 = __importDefault(require("../Models/user.model"));
 const auth = (...requiredRoles) => {
     return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.cookies.accessToken;
-        console.log(token);
         // checking if the token is missing
         if (!token) {
             throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, "You are not authorized!");

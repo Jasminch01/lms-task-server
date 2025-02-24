@@ -35,6 +35,27 @@ const getModules = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         message: "modules retrives successfully",
     });
 }));
+const moduleUpdate = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { editedTitle } = req.body;
+    const { id } = req.params;
+    const result = yield module_services_1.moduleServices.moduleUpdateDB(id, editedTitle);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        data: result,
+        message: "module updated successfully",
+    });
+}));
+const moduledelete = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield module_services_1.moduleServices.deleteModule(id);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        data: result,
+        message: "module deleted successfully",
+    });
+}));
 const getModulesCourseId = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     console.log(id);
@@ -51,4 +72,6 @@ exports.moduleControllers = {
     createModule,
     getModules,
     getModulesCourseId,
+    moduleUpdate,
+    moduledelete,
 };

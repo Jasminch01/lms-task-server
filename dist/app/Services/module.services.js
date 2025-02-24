@@ -41,8 +41,32 @@ const getModulesWithCourseIdDB = (courseId) => __awaiter(void 0, void 0, void 0,
     })));
     return modulesWithLectures;
 });
+const moduleUpdateDB = (moduleId, updateName) => __awaiter(void 0, void 0, void 0, function* () {
+    const existModule = module_model_1.default.findById(moduleId);
+    if (!existModule) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "module not found");
+    }
+    const updatedModule = yield module_model_1.default.findByIdAndUpdate(moduleId, { title: updateName }, { new: true });
+    if (!updatedModule) {
+        throw new AppError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, "Failed to update module");
+    }
+    return updatedModule;
+});
+const deleteModule = (moduleId) => __awaiter(void 0, void 0, void 0, function* () {
+    const existModule = module_model_1.default.findById(moduleId);
+    if (!existModule) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "module not found");
+    }
+    const deleteModule = module_model_1.default.findByIdAndDelete(moduleId);
+    if (!deleteModule) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "module delete failed");
+    }
+    return deleteModule;
+});
 exports.moduleServices = {
     createModuleDB,
     getModulesDB,
     getModulesWithCourseIdDB,
+    moduleUpdateDB,
+    deleteModule,
 };

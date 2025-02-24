@@ -32,7 +32,7 @@ const userSignIn = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     res.cookie("accessToken", token, {
         httpOnly: true,
         secure: true,
-        sameSite: "none"
+        sameSite: "none",
     });
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
@@ -40,6 +40,15 @@ const userSignIn = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         message: "user sign in successfully",
         data: user,
         token: token,
+    });
+}));
+const userLogout = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.clearCookie("accessToken", { path: "/", httpOnly: true, secure: true });
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        message: "logged out successfully",
+        data: "logged out successfully",
     });
 }));
 const getUserProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -56,4 +65,5 @@ exports.userController = {
     createUser,
     userSignIn,
     getUserProfile,
+    userLogout,
 };
