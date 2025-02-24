@@ -4,7 +4,7 @@ import { auth, currentUser } from "../middlewares/auth";
 
 const router = Router();
 
-router.post("/course/create", auth("admin"), courseController.createCourse);
+router.post("/course/create", currentUser(), courseController.createCourse);
 router.get("/courses", courseController.getCourses);
 router.get("/course", currentUser(), courseController.getCourse);
 router.delete("/courses", auth("admin"), courseController.deleteCourse);

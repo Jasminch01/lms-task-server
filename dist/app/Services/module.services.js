@@ -16,6 +16,7 @@ exports.moduleServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../Error/AppError"));
 const module_model_1 = __importDefault(require("../Models/module.model"));
+const lecture_modal_1 = __importDefault(require("../Models/lecture.modal"));
 const createModuleDB = (module) => __awaiter(void 0, void 0, void 0, function* () {
     const newModule = module;
     const result = module_model_1.default.create(newModule);
@@ -28,7 +29,20 @@ const getModulesDB = () => __awaiter(void 0, void 0, void 0, function* () {
     }
     return result;
 });
+const getModulesWithCourseIdDB = (courseId) => __awaiter(void 0, void 0, void 0, function* () {
+    const modules = yield module_model_1.default.find({ courseId: courseId });
+    if (!modules || modules.length === 0) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Modules not found");
+    }
+    //lectures for each module
+    const modulesWithLectures = yield Promise.all(modules.map((module) => __awaiter(void 0, void 0, void 0, function* () {
+        const lectures = yield lecture_modal_1.default.find({ moduleId: module._id });
+        return Object.assign(Object.assign({}, module.toObject()), { lectures });
+    })));
+    return modulesWithLectures;
+});
 exports.moduleServices = {
     createModuleDB,
     getModulesDB,
+    getModulesWithCourseIdDB,
 };

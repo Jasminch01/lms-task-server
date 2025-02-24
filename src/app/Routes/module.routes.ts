@@ -6,4 +6,5 @@ const router = Router();
 
 router.post("/modules/create", auth('admin'), moduleControllers.createModule); //task : have authenticate user is admin
 router.get("/modules", currentUser(), moduleControllers.getModules);
+router.get("/modules/:id", currentUser(), moduleControllers.getModulesCourseId);
 export const moduleRouter = router;

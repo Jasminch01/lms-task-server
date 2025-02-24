@@ -2,6 +2,8 @@ import httpStatus from "http-status";
 import AppError from "../Error/AppError";
 import Lecture from "../Models/lecture.modal";
 import { Tlecture } from "../type";
+import Module from "../Models/module.model";
+import Course from "../Models/course.model";
 
 const createLectureDB = async (newLecture: Tlecture) => {
   const result = await Lecture.create(newLecture);
@@ -14,6 +16,32 @@ const getLecturesDB = async () => {
     throw new AppError(httpStatus.NOT_FOUND, "Lectures are not found");
   }
   return result;
+};
+
+const getLecturesWithCourseModuleNameDB = async (
+  courseName: string,
+  moduleName: string
+) => {
+  try {
+    // Find the course by course name
+    const course = await Course.findOne({ title: courseName });
+    if (!course) {
+      throw new Error("Course not found");
+    }
+
+    // Find the module by module name and courseId
+    const module = await Module.findOne({
+      title: moduleName,
+      courseId: course._id,
+    });
+    if (!module) {
+      throw new Error("Module not found");
+    }
+    const lectures = await Lecture.find({ moduleId: module._id });
+    return lectures;
+  } catch (error) {
+    throw new AppError(httpStatus.NOT_FOUND, "lectures not found");
+  }
 };
 
 const editLectureDB = async (lectureId: string, updateLecture: Tlecture) => {
@@ -44,4 +72,5 @@ export const lectureServices = {
   getLecturesDB,
   editLectureDB,
   deleteLectureDB,
+  getLecturesWithCourseModuleNameDB,
 };

@@ -55,7 +55,17 @@ const delectLecture = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         success: true,
         statusCode: 200,
         message: "lecture deleted success",
-        data: result
+        data: result,
+    });
+}));
+const getLecturesWithCourseModuleName = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { courseName, moduleName } = req.body;
+    const result = yield lecture_services_1.lectureServices.getLecturesWithCourseModuleNameDB(courseName, moduleName);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: 200,
+        message: "lecture found",
+        data: result,
     });
 }));
 exports.lectureControllers = {
@@ -63,4 +73,5 @@ exports.lectureControllers = {
     getLectures,
     editLecture,
     delectLecture,
+    getLecturesWithCourseModuleName,
 };

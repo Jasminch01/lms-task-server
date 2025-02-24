@@ -10,6 +10,7 @@ router.post(
   lectureControllers.createLecture
 );
 router.get("/lectures", currentUser(), lectureControllers.getLectures);
+router.post("/lectures", currentUser(), lectureControllers.getLecturesWithCourseModuleName);
 router.put("/lectures", auth("admin"), lectureControllers.editLecture);
 router.delete("/lectures", auth("admin"), lectureControllers.delectLecture);
 export const lectureRouter = router;

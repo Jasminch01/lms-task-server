@@ -16,6 +16,8 @@ exports.lectureServices = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const AppError_1 = __importDefault(require("../Error/AppError"));
 const lecture_modal_1 = __importDefault(require("../Models/lecture.modal"));
+const module_model_1 = __importDefault(require("../Models/module.model"));
+const course_model_1 = __importDefault(require("../Models/course.model"));
 const createLectureDB = (newLecture) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield lecture_modal_1.default.create(newLecture);
     return result;
@@ -26,6 +28,28 @@ const getLecturesDB = () => __awaiter(void 0, void 0, void 0, function* () {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Lectures are not found");
     }
     return result;
+});
+const getLecturesWithCourseModuleNameDB = (courseName, moduleName) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Find the course by course name
+        const course = yield course_model_1.default.findOne({ title: courseName });
+        if (!course) {
+            throw new Error("Course not found");
+        }
+        // Find the module by module name and courseId
+        const module = yield module_model_1.default.findOne({
+            title: moduleName,
+            courseId: course._id,
+        });
+        if (!module) {
+            throw new Error("Module not found");
+        }
+        const lectures = yield lecture_modal_1.default.find({ moduleId: module._id });
+        return lectures;
+    }
+    catch (error) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "lectures not found");
+    }
 });
 const editLectureDB = (lectureId, updateLecture) => __awaiter(void 0, void 0, void 0, function* () {
     const lecture = yield lecture_modal_1.default.findById(lectureId);
@@ -50,4 +74,5 @@ exports.lectureServices = {
     getLecturesDB,
     editLectureDB,
     deleteLectureDB,
+    getLecturesWithCourseModuleNameDB,
 };

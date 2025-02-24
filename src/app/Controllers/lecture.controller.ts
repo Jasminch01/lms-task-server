@@ -1,4 +1,3 @@
-import { SubdocsToPOJOs } from "mongoose";
 import { lectureServices } from "../Services/lecture.services";
 import catchAsync from "../utils/catchAsync";
 import sendResponse from "../utils/sendResponse";
@@ -44,16 +43,31 @@ const delectLecture = catchAsync(async (req, res) => {
   const result = await lectureServices.deleteLectureDB(lectureId);
 
   sendResponse(res, {
-    success : true,
-    statusCode : 200,
-    message : "lecture deleted success",
-    data : result
-  })
+    success: true,
+    statusCode: 200,
+    message: "lecture deleted success",
+    data: result,
+  });
 });
 
+const getLecturesWithCourseModuleName = catchAsync(async (req, res) => {
+  const { courseName, moduleName } = req.body;
+
+  const result = await lectureServices.getLecturesWithCourseModuleNameDB(
+    courseName,
+    moduleName
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "lecture found",
+    data: result,
+  });
+});
 export const lectureControllers = {
   createLecture,
   getLectures,
   editLecture,
   delectLecture,
+  getLecturesWithCourseModuleName,
 };

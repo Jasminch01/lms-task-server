@@ -11,7 +11,8 @@ import { TuserRole } from "../type";
 
 export const auth = (...requiredRoles: TuserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.cookies.accessToken;
+    console.log(token)
 
     // checking if the token is missing
     if (!token) {
@@ -37,7 +38,7 @@ export const auth = (...requiredRoles: TuserRole[]) => {
         "You have no access to this route !"
       );
     }
-    
+
     next();
   });
 };
