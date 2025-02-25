@@ -13,7 +13,7 @@ app.use(cookieparser());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://lms-task-xi.vercel.app"],
+    origin: ["http://localhost:3000", "https://lms-task-zl8f.vercel.app"],
     credentials: true,
   })
 );
