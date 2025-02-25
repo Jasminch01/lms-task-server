@@ -45,7 +45,7 @@ export const currentUser = () => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.accessToken;
 
-    console.log(token)
+    console.log("token from current user middleware", token);
     // Check if the token is missing
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized!");
