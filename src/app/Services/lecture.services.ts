@@ -4,6 +4,7 @@ import Lecture from "../Models/lecture.modal";
 import { Tlecture } from "../type";
 import Module from "../Models/module.model";
 import Course from "../Models/course.model";
+import { Types } from "mongoose";
 
 const createLectureDB = async (newLecture: Tlecture) => {
   const result = await Lecture.create(newLecture);
@@ -16,6 +17,35 @@ const getLecturesDB = async () => {
     throw new AppError(httpStatus.NOT_FOUND, "Lectures are not found");
   }
   return result;
+};
+
+const getLecturesWithCourseIdModuleIdDB = async (
+  courseId: string,
+  moduleId: string
+) => {
+  const courseObjectId = new Types.ObjectId(courseId);
+  const moduleObjectId = new Types.ObjectId(moduleId);
+
+  const existCourse = await Course.findById(courseObjectId);
+  if (!existCourse) {
+    throw new AppError(httpStatus.NOT_FOUND, "Course not found");
+  }
+
+  // Check if the module exists and belongs to the provided course
+  const existModule = await Module.findOne({ _id: moduleObjectId, courseId });
+  if (!existModule) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "Module not found or does not belong to the course"
+    );
+  }
+
+  const lectures = await Lecture.find({ moduleId: existModule._id });
+
+  if (!lectures) {
+    throw new AppError(httpStatus.NOT_FOUND, "lectures not found");
+  }
+  return lectures;
 };
 
 const getLecturesWithCourseModuleNameDB = async (
@@ -59,7 +89,7 @@ const editLectureDB = async (lectureId: string, updateLecture: Tlecture) => {
 
 const deleteLectureDB = async (lectureId: string) => {
   const lecture = await Lecture.findById(lectureId);
-  console.log(lecture)
+  console.log(lecture);
   if (!lecture) {
     throw new AppError(httpStatus.NOT_FOUND, "lecture not found");
   }
@@ -74,4 +104,5 @@ export const lectureServices = {
   editLectureDB,
   deleteLectureDB,
   getLecturesWithCourseModuleNameDB,
+  getLecturesWithCourseIdModuleIdDB,
 };

@@ -64,10 +64,29 @@ const getLecturesWithCourseModuleName = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+const getLecturesWithCourseIdModuleId = catchAsync(async (req, res) => {
+  const { courseId, moduleId } = req.query;
+  const courseIdString = courseId as string;
+  const moduleIdString = moduleId as string;
+  const result = await lectureServices.getLecturesWithCourseIdModuleIdDB(
+    courseIdString,
+    moduleIdString
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "lectures are retrive successfully",
+    data: result,
+  });
+});
+
 export const lectureControllers = {
   createLecture,
   getLectures,
   editLecture,
   delectLecture,
   getLecturesWithCourseModuleName,
+  getLecturesWithCourseIdModuleId,
 };

@@ -18,6 +18,7 @@ const AppError_1 = __importDefault(require("../Error/AppError"));
 const lecture_modal_1 = __importDefault(require("../Models/lecture.modal"));
 const module_model_1 = __importDefault(require("../Models/module.model"));
 const course_model_1 = __importDefault(require("../Models/course.model"));
+const mongoose_1 = require("mongoose");
 const createLectureDB = (newLecture) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield lecture_modal_1.default.create(newLecture);
     return result;
@@ -28,6 +29,24 @@ const getLecturesDB = () => __awaiter(void 0, void 0, void 0, function* () {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Lectures are not found");
     }
     return result;
+});
+const getLecturesWithCourseIdModuleIdDB = (courseId, moduleId) => __awaiter(void 0, void 0, void 0, function* () {
+    const courseObjectId = new mongoose_1.Types.ObjectId(courseId);
+    const moduleObjectId = new mongoose_1.Types.ObjectId(moduleId);
+    const existCourse = yield course_model_1.default.findById(courseObjectId);
+    if (!existCourse) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Course not found");
+    }
+    // Check if the module exists and belongs to the provided course
+    const existModule = yield module_model_1.default.findOne({ _id: moduleObjectId, courseId });
+    if (!existModule) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Module not found or does not belong to the course");
+    }
+    const lectures = yield lecture_modal_1.default.find({ moduleId: existModule._id });
+    if (!lectures) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "lectures not found");
+    }
+    return lectures;
 });
 const getLecturesWithCourseModuleNameDB = (courseName, moduleName) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -76,4 +95,5 @@ exports.lectureServices = {
     editLectureDB,
     deleteLectureDB,
     getLecturesWithCourseModuleNameDB,
+    getLecturesWithCourseIdModuleIdDB,
 };

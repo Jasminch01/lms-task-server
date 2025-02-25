@@ -7,6 +7,7 @@ const auth_1 = require("../middlewares/auth");
 const router = (0, express_1.Router)();
 router.post("/lectures/create", (0, auth_1.auth)("admin"), lecture_controller_1.lectureControllers.createLecture);
 router.get("/lectures", (0, auth_1.currentUser)(), lecture_controller_1.lectureControllers.getLectures);
+router.get("/lectures/filter", (0, auth_1.auth)('admin'), lecture_controller_1.lectureControllers.getLecturesWithCourseIdModuleId);
 router.post("/lectures", (0, auth_1.currentUser)(), lecture_controller_1.lectureControllers.getLecturesWithCourseModuleName);
 router.put("/lectures", (0, auth_1.auth)("admin"), lecture_controller_1.lectureControllers.editLecture);
 router.delete("/lectures", (0, auth_1.auth)("admin"), lecture_controller_1.lectureControllers.delectLecture);
