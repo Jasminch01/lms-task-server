@@ -13,33 +13,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
+const Config_1 = __importDefault(require("../Config"));
 const user_services_1 = require("../Services/user.services");
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
+const createToken_1 = require("../utils/createToken");
 const sendResponse_1 = __importDefault(require("../utils/sendResponse"));
 const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.body;
     const result = yield user_services_1.userServices.createUserDB(user);
+    const jwtPayload = {
+        userEmail: result.email,
+        role: result.role,
+    };
+    const accessToken = (0, createToken_1.createToken)(jwtPayload, Config_1.default.jwt_access_secret, Config_1.default.jwt_access_expires_in);
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true, // Cookie is accessible only by the web server
+        secure: true, //true for prod
+        sameSite: "none",
+    });
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 201,
         message: "user created successfully",
         data: result,
-    });
-}));
-const userSignIn = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userCrediential = req.body;
-    const { user, token } = yield user_services_1.userServices.userSignIn(userCrediential);
-    res.cookie("accessToken", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-    });
-    (0, sendResponse_1.default)(res, {
-        statusCode: 200,
-        success: true,
-        message: "user sign in successfully",
-        data: user,
-        token: token,
     });
 }));
 const userLogout = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -52,7 +48,8 @@ const userLogout = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     });
 }));
 const getUserProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userEmail = req.body;
+    const { email } = req.query;
+    const userEmail = email;
     const result = yield user_services_1.userServices.getUserProfileDB(userEmail);
     (0, sendResponse_1.default)(res, {
         success: true,
@@ -63,7 +60,6 @@ const getUserProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
 }));
 exports.userController = {
     createUser,
-    userSignIn,
     getUserProfile,
     userLogout,
 };

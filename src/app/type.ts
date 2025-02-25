@@ -15,7 +15,6 @@ export type Tmodule = {
 export type Tuser = {
   name: string;
   email: string;
-  password: string;
   role: string;
 };
 
