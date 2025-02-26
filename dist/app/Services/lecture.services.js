@@ -82,7 +82,6 @@ const editLectureDB = (lectureId, updateLecture) => __awaiter(void 0, void 0, vo
 });
 const deleteLectureDB = (lectureId) => __awaiter(void 0, void 0, void 0, function* () {
     const lecture = yield lecture_modal_1.default.findById(lectureId);
-    console.log(lecture);
     if (!lecture) {
         throw new AppError_1.default(http_status_1.default.NOT_FOUND, "lecture not found");
     }

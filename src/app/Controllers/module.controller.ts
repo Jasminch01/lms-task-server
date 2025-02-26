@@ -48,7 +48,6 @@ const moduledelete = catchAsync(async (req, res) => {
 
 const getModulesCourseId = catchAsync(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   const courseId = id as string;
   const result = await moduleServices.getModulesWithCourseIdDB(courseId);
   sendResponse(res, {

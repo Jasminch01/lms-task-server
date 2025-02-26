@@ -89,7 +89,6 @@ const editLectureDB = async (lectureId: string, updateLecture: Tlecture) => {
 
 const deleteLectureDB = async (lectureId: string) => {
   const lecture = await Lecture.findById(lectureId);
-  console.log(lecture);
   if (!lecture) {
     throw new AppError(httpStatus.NOT_FOUND, "lecture not found");
   }

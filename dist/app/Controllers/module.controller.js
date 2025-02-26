@@ -58,7 +58,6 @@ const moduledelete = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
 }));
 const getModulesCourseId = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    console.log(id);
     const courseId = id;
     const result = yield module_services_1.moduleServices.getModulesWithCourseIdDB(courseId);
     (0, sendResponse_1.default)(res, {
